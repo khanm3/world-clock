@@ -3,7 +3,7 @@ import { DateTime, Settings } from "luxon";
 
 
 
-export default function ClockLuxon({ tz }) {
+export default function Clock({ tz }) {
     const dtRef = useRef(DateTime.local({ zone: tz }))
     const [dt, setDt] = useState(dtRef.current)
     // console.log(tz)
