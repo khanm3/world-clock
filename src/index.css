@@ -22,13 +22,13 @@ main {
 
 .clock-container {
   display: flex;
-  gap: 50px;
+  gap: 100px;
 }
 
 .clock-face {
   border: 1px solid #000;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px 30px;
 }
 
 .clock-face > span {
@@ -36,21 +36,24 @@ main {
   line-height: 1;
 }
 
+.date {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
 .time {
   font-size: 3.6rem;
-  margin-bottom: 5px;
+  margin-bottom: 16px;
 }
 
 .zone {
   font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.date {
-  font-size: 1rem;
 }
 
 .clock-caption {
+  display: inline-block;
   margin-top:15px;
   padding: 0 30px;
+  word-wrap: break-word;
+  width: 100%;
 }

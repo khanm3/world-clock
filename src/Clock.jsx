@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { DateTime, Settings } from "luxon";
 
-
-
 export default function Clock({ tz }) {
     const dtRef = useRef(DateTime.local({ zone: tz }))
     const [dt, setDt] = useState(dtRef.current)
@@ -37,24 +35,32 @@ export default function Clock({ tz }) {
         return currentOffset - localOffset
     }
 
+    function getNonLocalCaption(offsetMinutes) {
+        const nonLocalRegion = dt.zoneName.slice(dt.zoneName.indexOf("/") + 1)
+        const offsetHours = offsetMinutes / 60
+        const direction = offsetMinutes < 0 ? "behind" : "ahead"
+        // return `${nonLocalRegion} is ${offsetHours} hours ${direction} of your current time zone!`
+        return `${nonLocalRegion} is ${offsetHours} hours ${direction}`
+    }
+
     const offset = getOffsetFromLocalZone()
     const caption = getOffsetFromLocalZone() === 0
         ? "Current time zone"
-        : `${offset / 60} hours ${offset < 0 ? "behind" : "ahead"}`
+        : getNonLocalCaption(offset)
 
     return (
         <div>
             <div className="clock-face">
+                <span className="date">{dt.toLocaleString({weekday: "long", month: "long", day: "numeric"})}</span>
+                <br />
                 <span className="time">{dt.toLocaleString(DateTime.TIME_SIMPLE)}</span>
                 <br/>
                 <span className="zone">{dt.zoneName}</span>
-                <br />
-                <span className="date">{dt.toLocaleString(DateTime.DATE_HUGE)}</span>
-                <br />
+
             </div>
-            <div className="clock-caption">
+            <span className="clock-caption">
                 {caption}
-            </div>
+            </span>
         </div>
     )
 }
