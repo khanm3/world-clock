@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "luxon": "^3.5.0",
+    "moment-timezone": "^0.5.47",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "moment-timezone": "^0.5.47"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
