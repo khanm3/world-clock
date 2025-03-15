@@ -1,8 +1,19 @@
+import { useState, useEffect } from "react"
 import { DateTime, Settings } from "luxon";
 
 export default function ClockLuxon({ tz }) {
-    const dt = DateTime.local({ zone: tz })
-    console.log(dt)
+    const [dt, setDt] = useState(DateTime.local({ zone: tz }))
+    // console.log(tz)
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setDt(DateTime.local({ zone: tz }))
+        }, 1000)
+
+        return () => {
+            clearInterval(intervalId)
+        }
+    }, [])
 
     // returns offset in minutes
     function getOffsetFromLocalZone() {
