@@ -1,13 +1,24 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { DateTime, Settings } from "luxon";
 
+
+
 export default function ClockLuxon({ tz }) {
-    const [dt, setDt] = useState(DateTime.local({ zone: tz }))
+    const dtRef = useRef(DateTime.local({ zone: tz }))
+    const [dt, setDt] = useState(dtRef.current)
     // console.log(tz)
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setDt(DateTime.local({ zone: tz }))
+            const prevDt = dtRef.current
+            dtRef.current = DateTime.local({ zone: tz })
+
+            // update state when minute changes
+            const minuteFormat = {minute: "numeric"}
+            if (dtRef.current.toLocaleString(minuteFormat) !== prevDt.toLocaleString(minuteFormat)) {
+                setDt(dtRef.current)
+            }
+
         }, 1000)
 
         return () => {
