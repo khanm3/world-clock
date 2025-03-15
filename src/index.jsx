@@ -5,7 +5,7 @@ import AppLuxon from "./AppLuxon"
 import './index.css'
 
 createRoot(document.getElementById("root")).render(
-    <StrictMode>
+    // <StrictMode>
         <AppLuxon />
-    </StrictMode>
+    // </StrictMode>
 )
