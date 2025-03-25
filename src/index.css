@@ -4,12 +4,44 @@
 
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: "Roboto Mono", monospace;
   height: 100vh;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
 }
 
 div#root {
   height: 100%;
+}
+
+header {
+  padding-inline: 24px;
+  margin: 0 auto;
+  max-width: 1400px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 26px;
+}
+
+.logo-text {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
 }
 
 main {
