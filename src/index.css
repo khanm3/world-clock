@@ -56,6 +56,7 @@ main {
   display: flex;
   flex-direction: column;
   width: 1035px;
+  font-family: "Roboto", sans-serif;
 }
 
 .main-clock {
@@ -66,12 +67,13 @@ main {
 .main-clock-info-controls {
   display: flex;
   justify-content: space-between;
+  font-weight: 600;
 }
 
 hr {
   width: 100%;
   margin-block: 48px;
-  border: 2px solid white;
+  border: 1px solid white;
 }
 
 .clock-container {

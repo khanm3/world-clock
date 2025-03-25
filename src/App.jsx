@@ -1,7 +1,34 @@
+import { useState, useEffect } from "react"
+import { DateTime, Settings } from "luxon"
+import { getCountryForTimezone } from "countries-and-timezones"
 import Clock from "./Clock"
 import logo from "./assets/logo.png"
 
 export default function App() {
+  // State values
+  const [dateTime, setDateTime] = useState(() => DateTime.now())
+
+  // Derived values
+  const timeWithSeconds = dateTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
+  const dateHuge = dateTime.toLocaleString(DateTime.DATE_HUGE)
+  const ianaZone = dateTime.zoneName
+  const country = getCountryForTimezone(ianaZone).name
+  const city = ianaZone.split("/")[1].replace("_", " ")
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDateTime(DateTime.now())
+    }, 1000)
+
+    console.log(ianaZone)
+    console.log(country)
+    console.log(city)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
   return (
     <>
       <header>
@@ -13,18 +40,19 @@ export default function App() {
       <main>
         {/* todo: add component for big clock display */}
           <time className="main-clock">
-            08:15:40
+            {timeWithSeconds}
           </time>
 
           <div className="main-container">
             <div className="main-clock-info-controls">
               <span>
-                New York, New York<br/>
-                Current time
+                {city}, {country}
               </span>
               <span>
-                Wednesday, March 19 2025<br/>
-                Daytime ☀️
+                {dateHuge}
+              </span>
+              <span>
+                Current time
               </span>
               <div className="format-switcher">
                 12h | 24h
