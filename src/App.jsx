@@ -7,16 +7,18 @@ import logo from "./assets/logo.png"
 import { zoneOptions } from "./zones"
 
 export default function App() {
+  const localZone = zoneOptions.find(opt => opt.value === Intl.DateTimeFormat().resolvedOptions().timeZone)
+
   // State values
   const [dateTime, setDateTime] = useState(() => DateTime.now())
-  const [selectedZones, setSelectedZones] = useState(() => {
-    return [zoneOptions.find(opt => opt.value === Intl.DateTimeFormat().resolvedOptions().timeZone)]
-  })
+  const [zones, setZones] = useState([localZone]) // contains { value, label }
+  const [selectedZone, setSelectedZone] = useState(localZone.value) // contains value
 
   // Derived values
-  const timeWithSeconds = dateTime.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
-  const dateHuge = dateTime.toLocaleString(DateTime.DATE_HUGE)
-  const ianaZone = dateTime.zoneName
+  const dtSelectedZone = dateTime.setZone(selectedZone)
+  const timeWithSeconds = dtSelectedZone.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
+  const dateHuge = dtSelectedZone.toLocaleString(DateTime.DATE_HUGE)
+  const ianaZone = dtSelectedZone.zoneName
   const country = getCountryForTimezone(ianaZone).name
   const city = ianaZone.split("/")[1].replace("_", " ")
 
@@ -34,11 +36,12 @@ export default function App() {
     }
   }, [])
 
-
-  const clockElems = selectedZones.map(zone => (
+  const clockElems = zones.map(zone => (
     <Clock
       key={zone.value}
       tz={zone.value}
+      selected={selectedZone === zone.value}
+      select={() => setSelectedZone(zone.value)}
     />
   ))
   console.log(clockElems)
@@ -52,7 +55,6 @@ export default function App() {
         </a>
       </header>
       <main>
-        {/* todo: add component for big clock display */}
           <time className="main-clock">
             {timeWithSeconds}
           </time>
@@ -75,7 +77,7 @@ export default function App() {
 
             <hr/>
 
-            <ComboBox setSelectedOptions={setSelectedZones} />
+            <ComboBox setSelectedOptions={setZones} />
 
             <div className="clock-container">
                 {/* <Clock tz="America/New_York" />

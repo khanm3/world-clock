@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react"
-import { DateTime, Settings } from "luxon";
+import { DateTime, Settings } from "luxon"
+import { clsx } from "clsx"
 
-export default function Clock({ tz }) {
+
+export default function Clock({ tz, selected, select }) {
     const dtRef = useRef(DateTime.local({ zone: tz }))
     const [dt, setDt] = useState(dtRef.current)
     // console.log(tz)
@@ -50,7 +52,10 @@ export default function Clock({ tz }) {
 
     return (
         <div>
-            <div className="clock-face">
+            <div
+                className={clsx("clock-face", selected && "selected-clock")}
+                onClick={select}
+            >
                 <span className="date">{dt.toLocaleString({weekday: "long", month: "long", day: "numeric"})}</span>
                 <br />
                 <span className="time">{dt.toLocaleString(DateTime.TIME_SIMPLE)}</span>
