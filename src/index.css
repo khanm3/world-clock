@@ -62,6 +62,8 @@ main {
 .main-clock {
   font-size: 14rem;
   cursor: default;
+  /* margin-top: -60px; */
+  /* line-height: 1; */
 }
 
 .main-clock-info-controls {
@@ -70,10 +72,21 @@ main {
   font-weight: 600;
 }
 
+.main-clock,
+.main-clock-info-controls span {
+  user-select: all;
+}
+
 hr {
   width: 100%;
   margin-block: 48px;
   border: 1px solid white;
+}
+
+.search {
+  width: 450px;
+  margin-inline: auto;
+  margin-bottom: 48px;
 }
 
 .clock-container {
