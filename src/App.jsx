@@ -5,6 +5,7 @@ import Clock from "./Clock"
 import ComboBox from "./ComboBox"
 import logo from "./assets/logo.png"
 import { zoneOptions } from "./zones"
+import { getOffsetFromLocalZone, getOffsetCaption } from "./utils"
 
 export default function App() {
   const localZone = zoneOptions.find(opt => opt.value === Intl.DateTimeFormat().resolvedOptions().timeZone)
@@ -35,6 +36,9 @@ export default function App() {
       clearInterval(intervalId)
     }
   }, [])
+
+  const offsetMinutes = getOffsetFromLocalZone(dtSelectedZone)
+  const offsetCaption = getOffsetCaption(dtSelectedZone, offsetMinutes)
 
   const clockElems = zones.map(zone => (
     <Clock
@@ -68,7 +72,7 @@ export default function App() {
                 {dateHuge}
               </span>
               <span>
-                Current time
+                {offsetCaption}
               </span>
               <div className="format-switcher">
                 12h | 24h

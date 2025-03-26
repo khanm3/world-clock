@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { DateTime, Settings } from "luxon"
 import { clsx } from "clsx"
+import { getOffsetFromLocalZone, getOffsetCaption } from "./utils"
 
 
 export default function Clock({ tz, selected, select }) {
@@ -27,28 +28,26 @@ export default function Clock({ tz, selected, select }) {
     }, [])
 
     // returns offset in minutes
-    function getOffsetFromLocalZone() {
-        const local = Settings.defaultZone
-        const current = dt.zone
+    // function getOffsetFromLocalZone() {
+    //     const local = Settings.defaultZone
+    //     const current = dt.zone
 
-        const localOffset = local.offset(dt.toMillis())
-        const currentOffset = current.offset(dt.toMillis())
+    //     const localOffset = local.offset(dt.toMillis())
+    //     const currentOffset = current.offset(dt.toMillis())
 
-        return currentOffset - localOffset
-    }
+    //     return currentOffset - localOffset
+    // }
 
-    function getNonLocalCaption(offsetMinutes) {
-        const nonLocalRegion = dt.zoneName.slice(dt.zoneName.indexOf("/") + 1)
-        const offsetHours = offsetMinutes / 60
-        const direction = offsetMinutes < 0 ? "behind" : "ahead"
-        // return `${nonLocalRegion} is ${offsetHours} hours ${direction} of your current time zone!`
-        return `${nonLocalRegion} is ${offsetHours} hours ${direction}`
-    }
+    // function getNonLocalCaption(dt, offsetMinutes) {
+    //     const nonLocalRegion = dt.zoneName.slice(dt.zoneName.indexOf("/") + 1)
+    //     const offsetHours = offsetMinutes / 60
+    //     const direction = offsetMinutes < 0 ? "behind" : "ahead"
+    //     // return `${nonLocalRegion} is ${offsetHours} hours ${direction} of your current time zone!`
+    //     return `${nonLocalRegion} is ${offsetHours} hours ${direction}`
+    // }
 
-    const offset = getOffsetFromLocalZone()
-    const caption = getOffsetFromLocalZone() === 0
-        ? "Current time zone"
-        : getNonLocalCaption(offset)
+    const offset = getOffsetFromLocalZone(dt)
+    const caption = getOffsetCaption(dt, offset)
 
     return (
         <div>
