@@ -14,10 +14,14 @@ export default function App() {
   const [dateTime, setDateTime] = useState(() => DateTime.now())
   const [zones, setZones] = useState([localZone]) // contains { value, label }
   const [selectedZone, setSelectedZone] = useState(localZone.value) // contains value
+  const [is12HFormat, setIs12HFormat] = useState(false)
 
   // Derived values
   const dtSelectedZone = dateTime.setZone(selectedZone)
-  const timeWithSeconds = dtSelectedZone.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
+  const time24H = dtSelectedZone.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
+  const time12H = dtSelectedZone.toLocaleString({...DateTime.TIME_WITH_SECONDS, hour: "2-digit", hour12: true})
+  const time12HNumber = time12H.slice(0, time12H.length - 2)
+  const time12HPeriod = time12H.slice(time12H.length - 2).toLowerCase()
   const dateHuge = dtSelectedZone.toLocaleString(DateTime.DATE_HUGE)
   const ianaZone = dtSelectedZone.zoneName
   const country = getCountryForTimezone(ianaZone).name
@@ -59,8 +63,13 @@ export default function App() {
         </a>
       </header>
       <main>
-          <time className="main-clock">
-            {timeWithSeconds}
+          <time className={`main-clock-${is12HFormat ? "12h" : "24h"}`}>
+            {is12HFormat ? time12HNumber : time24H}
+            {is12HFormat &&
+              <span className="main-clock-12h-period">
+                {time12HPeriod}
+              </span>
+            }
           </time>
 
           <div className="main-container">
@@ -74,8 +83,15 @@ export default function App() {
               <span>
                 {offsetCaption}
               </span>
-              <div className="format-switcher">
-                12h | 24h
+              <div className="time-format-switcher">
+                <button
+                  className={`btn-12h-${is12HFormat ? "selected" : "unselected"}`}
+                  onClick={() => setIs12HFormat(true)}
+                >12h</button>
+                <button
+                  className={`btn-24h-${is12HFormat ? "unselected" : "selected"}`}
+                  onClick={() => setIs12HFormat(false)}
+                >24h</button>
               </div>
             </div>
 

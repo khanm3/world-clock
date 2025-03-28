@@ -1,3 +1,11 @@
+/* Variables */
+:root {
+  --time-switcher-border-radius: 28px;
+  --selected-btn-inner-padding: 8px;
+  --unselected-btn-inner-padding: 4px;
+}
+
+/* Custom styles */
 * {
   box-sizing: border-box;
 }
@@ -21,6 +29,14 @@ div#root {
   height: 100%;
 }
 
+main {
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header & Logo */
 header {
   padding-inline: 24px;
   margin: 0 auto;
@@ -45,13 +61,7 @@ header {
   font-weight: 500;
 }
 
-main {
-  /* height: 100%; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Main clock, info, and format control */
 .main-container {
   display: flex;
   flex-direction: column;
@@ -59,11 +69,21 @@ main {
   font-family: "Roboto", sans-serif;
 }
 
-.main-clock {
+.main-clock-24h {
   font-size: 14rem;
   cursor: default;
-  /* margin-top: -60px; */
-  /* line-height: 1; */
+}
+
+.main-clock-12h {
+  font-size: 12.5rem;
+  cursor: default;
+  display: flex;
+  align-items: baseline;
+}
+
+.main-clock-12h-period {
+  font-size: 5.75rem;
+  font-weight: 600;
 }
 
 .main-clock-info-controls {
@@ -77,18 +97,66 @@ main {
   user-select: all;
 } */
 
+button {
+  font-family: "Roboto";
+  cursor: pointer;
+}
+
+.time-format-switcher {
+  background-color: white;
+  border-radius: var(--time-switcher-border-radius);
+}
+
+.time-format-switcher button {
+  border: none;
+  padding-block: 5px;
+  border-radius: var(--time-switcher-border-radius);
+}
+
+.btn-12h-unselected,
+.btn-24h-unselected {
+  background-color: transparent;
+  color: black;
+}
+
+.btn-12h-selected,
+.btn-24h-selected {
+  background-color: black;
+  color: white;
+  width: 2.8em;
+}
+
+/* .btn-12h-selected {
+  padding-right: var(--selected-btn-inner-padding);
+}
+
+.btn-24h-selected {
+  padding-left: var(--selected-btn-inner-padding);
+} */
+
+.btn-12h-unselected {
+  padding-right: var(--unselected-btn-inner-padding);
+}
+
+.btn-24h-unselected {
+  padding-left: var(--unselected-btn-inner-padding);
+}
+
+/* Separator (between main clock and clock widgets) */
 hr {
   width: 100%;
   margin-block: 48px;
   border: 1px solid white;
 }
 
+/* Search bar */
 .search {
   width: 450px;
   margin-inline: auto;
   margin-bottom: 48px;
 }
 
+/* Clock widgets */
 .clock-container {
   display: flex;
   justify-content: center;
