@@ -18,6 +18,7 @@ export default function ComboBox({ setSelectedOptions }) {
             value={value}
             placeholder="Search for a city to add"
             onChange={handleChange}
+            aria-label="Search"
         />
     )
 }

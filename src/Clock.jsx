@@ -4,11 +4,17 @@ import { clsx } from "clsx"
 import { getOffsetFromLocalZone, getOffsetCaption } from "./utils"
 
 
-export default function Clock({ tz, selected, select }) {
+export default function Clock({ tz, selected, selectClock, is12HFormat }) {
+    // State values
     const dtRef = useRef(DateTime.local({ zone: tz }))
     const [dt, setDt] = useState(dtRef.current)
-    // console.log(tz)
 
+    // Derived values
+    const time12H = dt.toLocaleString({...DateTime.TIME_SIMPLE, time12H: true})
+    const time24H = dt.toLocaleString(DateTime.TIME_24_SIMPLE)
+    const city = dt.zoneName.split("/")[1].replace("_", " ")
+
+    // Update state and trigger rerender only when minute changes
     useEffect(() => {
         const intervalId = setInterval(() => {
             const prevDt = dtRef.current
@@ -27,41 +33,24 @@ export default function Clock({ tz, selected, select }) {
         }
     }, [])
 
-    // returns offset in minutes
-    // function getOffsetFromLocalZone() {
-    //     const local = Settings.defaultZone
-    //     const current = dt.zone
-
-    //     const localOffset = local.offset(dt.toMillis())
-    //     const currentOffset = current.offset(dt.toMillis())
-
-    //     return currentOffset - localOffset
-    // }
-
-    // function getNonLocalCaption(dt, offsetMinutes) {
-    //     const nonLocalRegion = dt.zoneName.slice(dt.zoneName.indexOf("/") + 1)
-    //     const offsetHours = offsetMinutes / 60
-    //     const direction = offsetMinutes < 0 ? "behind" : "ahead"
-    //     // return `${nonLocalRegion} is ${offsetHours} hours ${direction} of your current time zone!`
-    //     return `${nonLocalRegion} is ${offsetHours} hours ${direction}`
-    // }
-
     const offset = getOffsetFromLocalZone(dt)
     const caption = getOffsetCaption(dt, offset)
 
     return (
-        <div>
-            <div
-                className={clsx("clock-face", selected && "selected-clock")}
-                onClick={select}
+        <div className="clock-widget">
+            <button
+                className={clsx("clock-face", selected && "clock-face-selected")}
+                onClick={selectClock}
+                aria-label={city}
+                data-testid="clock-face"
             >
                 <span className="date">{dt.toLocaleString({weekday: "long", month: "long", day: "numeric"})}</span>
                 <br />
-                <span className="time">{dt.toLocaleString(DateTime.TIME_SIMPLE)}</span>
+                <span className="time">{is12HFormat ? time12H : time24H}</span>
                 <br/>
                 <span className="zone">{dt.zoneName}</span>
 
-            </div>
+            </button>
             <span className="clock-caption">
                 {caption}
             </span>

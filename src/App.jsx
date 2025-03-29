@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { DateTime, Settings } from "luxon"
 import { getCountryForTimezone } from "countries-and-timezones"
+import { clsx } from "clsx"
 import Clock from "./Clock"
 import ComboBox from "./ComboBox"
 import logo from "./assets/logo.png"
@@ -49,10 +50,10 @@ export default function App() {
       key={zone.value}
       tz={zone.value}
       selected={selectedZone === zone.value}
-      select={() => setSelectedZone(zone.value)}
+      selectClock={() => setSelectedZone(zone.value)}
+      is12HFormat={is12HFormat}
     />
   ))
-  console.log(clockElems)
 
   return (
     <>
@@ -63,7 +64,9 @@ export default function App() {
         </a>
       </header>
       <main>
-          <time className={`main-clock-${is12HFormat ? "12h" : "24h"}`}>
+          <time
+            className={clsx("main-clock", `main-clock-${is12HFormat ? "12h" : "24h"}`)}
+          >
             {is12HFormat ? time12HNumber : time24H}
             {is12HFormat &&
               <span className="main-clock-12h-period">

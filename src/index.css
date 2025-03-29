@@ -36,6 +36,13 @@ main {
   align-items: center;
 }
 
+button {
+  font-family: "Roboto";
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+}
+
 /* Header & Logo */
 header {
   padding-inline: 24px;
@@ -69,6 +76,10 @@ header {
   font-family: "Roboto", sans-serif;
 }
 
+.main-clock {
+  height: 17rem;
+}
+
 .main-clock-24h {
   font-size: 14rem;
   cursor: default;
@@ -96,11 +107,6 @@ header {
 .main-clock-info-controls span {
   user-select: all;
 } */
-
-button {
-  font-family: "Roboto";
-  cursor: pointer;
-}
 
 .time-format-switcher {
   background-color: white;
@@ -163,6 +169,11 @@ hr {
   gap: 100px;
 }
 
+.clock-widget {
+  display: flex;
+  flex-direction: column;
+}
+
 .clock-face {
   border: 2px solid white;
   border-radius: 10px;
@@ -170,10 +181,10 @@ hr {
   cursor: pointer;
 }
 
-.selected-clock {
+.clock-face-selected {
   background-color: #010101;
   color: white;
-  border: none;
+  border: 2px solid black;
 }
 
 .clock-face > span {
@@ -200,5 +211,4 @@ hr {
   margin-top:15px;
   padding: 0 30px;
   word-wrap: break-word;
-  width: 100%;
 }
