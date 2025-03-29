@@ -34,6 +34,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 30px;
 }
 
 button {
@@ -149,7 +150,7 @@ header {
 }
 
 /* Separator (between main clock and clock widgets) */
-hr {
+.main-container > hr {
   width: 100%;
   margin-block: 48px;
   border: 1px solid white;
@@ -169,16 +170,16 @@ hr {
   gap: 100px;
 }
 
-.clock-widget {
+.clock-face {
   display: flex;
   flex-direction: column;
-}
-
-.clock-face {
+  justify-content: space-between;
   border: 2px solid white;
   border-radius: 10px;
-  padding: 20px 30px;
+  padding: 14px 16px;
   cursor: pointer;
+  width: 258px;
+  height: 167px;
 }
 
 .clock-face-selected {
@@ -187,28 +188,28 @@ hr {
   border: 2px solid black;
 }
 
-.clock-face > span {
+.clock-face span {
   display: inline-block;
   line-height: 1;
 }
 
-.date {
-  font-size: 1rem;
-  margin-bottom: 10px;
+.clock-face hr {
+  width: 100%;
+  border: 1px solid white;
 }
 
-.time {
-  font-size: 3.6rem;
-  margin-bottom: 16px;
+.offset {
+  font-size: 1rem;
 }
 
 .zone {
   font-size: 1.5rem;
 }
 
-.clock-caption {
-  display: inline-block;
-  margin-top:15px;
-  padding: 0 30px;
-  word-wrap: break-word;
+.time {
+  font-size: 2rem;
+}
+
+.date {
+  font-size: 0.875rem;
 }

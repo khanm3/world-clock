@@ -1,8 +1,8 @@
-import { Settings } from "luxon"
+import { IANAZone } from "luxon"
 
 // returns offset in minutes
-export function getOffsetFromLocalZone(dt) {
-    const local = Settings.defaultZone
+export function getOffsetFromLocalZone(dt, localZone) {
+    const local = new IANAZone(localZone)
     const current = dt.zone
 
     const localOffset = local.offset(dt.toMillis())

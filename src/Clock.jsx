@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react"
 import { DateTime, Settings } from "luxon"
 import { clsx } from "clsx"
-import { getOffsetFromLocalZone, getOffsetCaption } from "./utils"
+import { getOffsetFromLocalZone } from "./utils"
 
 
-export default function Clock({ tz, selected, selectClock, is12HFormat }) {
+export default function Clock({
+    tz, selected, selectClock, is12HFormat, localZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+}) {
     // State values
     const dtRef = useRef(DateTime.local({ zone: tz }))
     const [dt, setDt] = useState(dtRef.current)
@@ -13,6 +15,7 @@ export default function Clock({ tz, selected, selectClock, is12HFormat }) {
     const time12H = dt.toLocaleString({...DateTime.TIME_SIMPLE, time12H: true})
     const time24H = dt.toLocaleString(DateTime.TIME_24_SIMPLE)
     const city = dt.zoneName.split("/")[1].replace("_", " ")
+    const date = dt.toLocaleString({month: "long", day: "numeric"})
 
     // Update state and trigger rerender only when minute changes
     useEffect(() => {
@@ -33,27 +36,28 @@ export default function Clock({ tz, selected, selectClock, is12HFormat }) {
         }
     }, [])
 
-    const offset = getOffsetFromLocalZone(dt)
-    const caption = getOffsetCaption(dt, offset)
+    function getOffsetString() {
+        const offsetMinutes = getOffsetFromLocalZone(dt, localZone)
+        const sign = offsetMinutes >= 0 ? "+" : "-"
+        const offsetHours = Math.abs(offsetMinutes) / 60
+        return `${sign}${offsetHours}h`
+    }
 
     return (
-        <div className="clock-widget">
             <button
                 className={clsx("clock-face", selected && "clock-face-selected")}
                 onClick={selectClock}
                 aria-label={city}
                 data-testid="clock-face"
             >
-                <span className="date">{dt.toLocaleString({weekday: "long", month: "long", day: "numeric"})}</span>
-                <br />
+                <span className="offset">{getOffsetString()}</span>
+                <span className="zone">{city}</span>
+                <hr />
                 <span className="time">{is12HFormat ? time12H : time24H}</span>
-                <br/>
-                <span className="zone">{dt.zoneName}</span>
-
+                <span className="date">{date}</span>
             </button>
-            <span className="clock-caption">
-                {caption}
-            </span>
-        </div>
+            // <span className="clock-caption">
+            //     {caption}
+            // </span>
     )
 }

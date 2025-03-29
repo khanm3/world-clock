@@ -8,13 +8,14 @@ import logo from "./assets/logo.png"
 import { zoneOptions } from "./zones"
 import { getOffsetFromLocalZone, getOffsetCaption } from "./utils"
 
-export default function App() {
-  const localZone = zoneOptions.find(opt => opt.value === Intl.DateTimeFormat().resolvedOptions().timeZone)
+export default function App({ localZone = Intl.DateTimeFormat().resolvedOptions().timeZone }) {
+  // zone options contain { value: IANAString, label: locationString }
+  const localZoneOption = zoneOptions.find(opt => opt.value === localZone)
 
   // State values
   const [dateTime, setDateTime] = useState(() => DateTime.now())
-  const [zones, setZones] = useState([localZone]) // contains { value, label }
-  const [selectedZone, setSelectedZone] = useState(localZone.value) // contains value
+  const [zones, setZones] = useState([localZoneOption])
+  const [selectedZone, setSelectedZone] = useState(localZoneOption.value)
   const [is12HFormat, setIs12HFormat] = useState(false)
 
   // Derived values
@@ -24,16 +25,15 @@ export default function App() {
   const time12HNumber = time12H.slice(0, time12H.length - 2)
   const time12HPeriod = time12H.slice(time12H.length - 2).toLowerCase()
   const dateHuge = dtSelectedZone.toLocaleString(DateTime.DATE_HUGE)
-  const ianaZone = dtSelectedZone.zoneName
-  const country = getCountryForTimezone(ianaZone).name
-  const city = ianaZone.split("/")[1].replace("_", " ")
+  const country = getCountryForTimezone(selectedZone).name
+  const city = selectedZone.split("/")[1].replace("_", " ")
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setDateTime(DateTime.now())
     }, 1000)
 
-    console.log(ianaZone)
+    console.log(selectedZone)
     console.log(country)
     console.log(city)
 
@@ -42,7 +42,7 @@ export default function App() {
     }
   }, [])
 
-  const offsetMinutes = getOffsetFromLocalZone(dtSelectedZone)
+  const offsetMinutes = getOffsetFromLocalZone(dtSelectedZone, localZone)
   const offsetCaption = getOffsetCaption(dtSelectedZone, offsetMinutes)
 
   const clockElems = zones.map(zone => (
@@ -52,6 +52,7 @@ export default function App() {
       selected={selectedZone === zone.value}
       selectClock={() => setSelectedZone(zone.value)}
       is12HFormat={is12HFormat}
+      localZone={localZone}
     />
   ))
 
