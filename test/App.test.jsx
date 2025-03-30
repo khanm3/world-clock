@@ -71,3 +71,9 @@ test("offset from LA to NY is +3h", async () => {
     await user.keyboard("{Enter}")
     expect(screen.getByRole("button", {name: "New York"})).toHaveTextContent("+3h")
 })
+
+// assumption: system time zone is America/New_York
+test("New York default time format is 12h", async () => {
+    setup(<App />)
+    expect(screen.getByRole("button", {name: "New York"})).toHaveTextContent(/AM|PM/)
+})

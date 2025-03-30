@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { DateTime, Settings } from "luxon"
+import { DateTime } from "luxon"
 import { getCountryForTimezone } from "countries-and-timezones"
 import { clsx } from "clsx"
 import Clock from "./Clock"
@@ -8,7 +8,10 @@ import logo from "./assets/logo.png"
 import { zoneOptions } from "./zones"
 import { getOffsetFromLocalZone, getOffsetCaption } from "./utils"
 
-export default function App({ localZone = Intl.DateTimeFormat().resolvedOptions().timeZone }) {
+export default function App({
+  localZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+  localIs12HFormat = Boolean(Intl.DateTimeFormat([], { hour: "numeric" }).format(0).match(/AM|PM/i))
+}) {
   // zone options contain { value: IANAString, label: locationString }
   const localZoneOption = zoneOptions.find(opt => opt.value === localZone)
 
@@ -16,7 +19,7 @@ export default function App({ localZone = Intl.DateTimeFormat().resolvedOptions(
   const [dateTime, setDateTime] = useState(() => DateTime.now())
   const [zones, setZones] = useState([localZoneOption])
   const [selectedZone, setSelectedZone] = useState(localZoneOption.value)
-  const [is12HFormat, setIs12HFormat] = useState(false)
+  const [is12HFormat, setIs12HFormat] = useState(localIs12HFormat)
 
   // Derived values
   const dtSelectedZone = dateTime.setZone(selectedZone)

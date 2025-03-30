@@ -5,7 +5,9 @@ import { getOffsetFromLocalZone } from "./utils"
 
 
 export default function Clock({
-    tz, selected, selectClock, is12HFormat, localZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    tz, selected, selectClock,
+    localZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
+    is12HFormat = Boolean(Intl.DateTimeFormat([], { hour: "numeric" }).format(0).match(/AM|PM/i))
 }) {
     // State values
     const dtRef = useRef(DateTime.local({ zone: tz }))
