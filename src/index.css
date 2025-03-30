@@ -3,6 +3,10 @@
   --time-switcher-border-radius: 28px;
   --selected-btn-inner-padding: 8px;
   --unselected-btn-inner-padding: 4px;
+  --content-width: 1035px;
+  --clock-widget-width: 247px;
+  --font-family-default: "Roboto", sans-serif;
+  --font-family-mono: "Roboto Mono", monospace;
 }
 
 /* Custom styles */
@@ -12,7 +16,7 @@
 
 body {
   margin: 0;
-  font-family: "Roboto Mono", monospace;
+  font-family: var(--font-family-default);
   height: 100vh;
   background-color: #E8E8E8;
 }
@@ -38,7 +42,7 @@ main {
 }
 
 button {
-  font-family: "Roboto";
+  font-family: var(--font-family-default);
   cursor: pointer;
   border: none;
   background-color: inherit;
@@ -65,7 +69,6 @@ header {
 }
 
 .logo-text {
-  font-family: "Roboto", sans-serif;
   font-weight: 500;
 }
 
@@ -73,12 +76,12 @@ header {
 .main-container {
   display: flex;
   flex-direction: column;
-  width: 1035px;
-  font-family: "Roboto", sans-serif;
+  width: var(--content-width);
 }
 
 .main-clock {
   height: 17rem;
+  font-family: var(--font-family-mono);
 }
 
 .main-clock-24h {
@@ -165,9 +168,10 @@ header {
 
 /* Clock widgets */
 .clock-container {
-  display: flex;
-  justify-content: center;
-  gap: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--clock-widget-width));
+  justify-content: space-between;
+  row-gap: 25px;
 }
 
 .clock-face {
@@ -178,7 +182,7 @@ header {
   border-radius: 10px;
   padding: 14px 16px;
   cursor: pointer;
-  width: 258px;
+  /* width: var(--clock-widget-width); */
   height: 167px;
 }
 
@@ -208,6 +212,7 @@ header {
 
 .time {
   font-size: 2rem;
+  /* font-family: var(--font-family-mono); */
 }
 
 .date {
