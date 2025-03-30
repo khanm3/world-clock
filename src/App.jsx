@@ -45,6 +45,12 @@ export default function App({
     }
   }, [])
 
+  function removeClock(event, id) {
+    // prevent event from propagating to the selectClock handler on parent element
+    event.stopPropagation()
+    setZones(prevZones => prevZones.filter(({value}) => value !== id))
+  }
+
   const offsetMinutes = getOffsetFromLocalZone(dtSelectedZone, localZone)
   const offsetCaption = getOffsetCaption(dtSelectedZone, offsetMinutes)
 
@@ -54,6 +60,7 @@ export default function App({
       tz={zone.value}
       selected={selectedZone === zone.value}
       selectClock={() => setSelectedZone(zone.value)}
+      removeClock={(event) => removeClock(event, zone.value)}
       is12HFormat={is12HFormat}
       localZone={localZone}
     />

@@ -1,4 +1,4 @@
-import { getAllByRole, render, screen } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { userEvent } from "@testing-library/user-event"
 import { test, expect } from "vitest"
 import App from "../src/App"
@@ -76,4 +76,15 @@ test("offset from LA to NY is +3h", async () => {
 test("New York default time format is 12h", async () => {
     setup(<App />)
     expect(screen.getByRole("button", {name: "New York"})).toHaveTextContent(/AM|PM/)
+})
+
+test("clicking close button removes clock", async () => {
+    const { user, search } = setup(<App localZone="America/New_York" />)
+    await user.type(search, "London")
+    await user.keyboard("{Enter}")
+    const clocksBeforeRemoval = screen.getAllByTestId("clock-face")
+    const removeLondonBtn = screen.getByRole("button", {name: "Remove London"})
+    await user.click(removeLondonBtn)
+    const clocksAfterRemoval = screen.getAllByTestId("clock-face")
+    expect(clocksBeforeRemoval.length).toEqual(clocksAfterRemoval.length + 1)
 })

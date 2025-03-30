@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from "react"
 import { DateTime, Settings } from "luxon"
 import { clsx } from "clsx"
 import { getOffsetFromLocalZone } from "./utils"
+import closeButton from "./assets/close-button.png"
 
 
 export default function Clock({
-    tz, selected, selectClock,
+    tz, selected, selectClock, removeClock,
     localZone = Intl.DateTimeFormat().resolvedOptions().timeZone,
     is12HFormat = Boolean(Intl.DateTimeFormat([], { hour: "numeric" }).format(0).match(/AM|PM/i))
 }) {
@@ -46,9 +47,11 @@ export default function Clock({
     }
 
     return (
-            <button
+            <div
                 className={clsx("clock-face", selected && "clock-face-selected")}
                 onClick={selectClock}
+                role="button"
+                tabindex="0"
                 aria-label={city}
                 data-testid="clock-face"
             >
@@ -57,9 +60,13 @@ export default function Clock({
                 <hr />
                 <span className="time">{is12HFormat ? time12H : time24H}</span>
                 <span className="date">{date}</span>
-            </button>
-            // <span className="clock-caption">
-            //     {caption}
-            // </span>
+                <button
+                    className="close-button"
+                    onClick={removeClock}
+                    aria-label={`Remove ${city}`}
+                >
+                    <img className="close-button-img" src={closeButton} />
+                </button>
+            </div>
     )
 }
