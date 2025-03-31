@@ -71,7 +71,7 @@ export default function App({
       <header>
         <a href="/" className="logo">
           <img src={logo}></img>
-          <span className="logo-text">WorldClocks</span>
+          <span className="logo-text">WorldClock</span>
         </a>
       </header>
       <main>
