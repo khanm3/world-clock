@@ -12,7 +12,7 @@ function setup(jsx) {
 
 test("displays logo text", () => {
     render(<App />)
-    expect(screen.getByText("WorldClocks")).toBeInTheDocument()
+    expect(screen.getByText("WorldClock")).toBeInTheDocument()
 })
 
 test("search bar clears after selection", async () => {

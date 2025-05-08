@@ -51,7 +51,7 @@ export default function Clock({
                 className={clsx("clock-face", selected && "clock-face-selected")}
                 onClick={selectClock}
                 role="button"
-                tabindex="0"
+                tabIndex="0"
                 aria-label={city}
                 data-testid="clock-face"
             >
